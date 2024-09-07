@@ -1,14 +1,14 @@
-import express, { type Request, type Response, type NextFunction } from 'express'
-import jwt from 'jsonwebtoken'
+import express from 'express'
 import cookieParser from 'cookie-parser'
 import { routes } from './routes/users.routes'
 import { routesCards } from './routes/cards.routes'
-import dotEnv from './verifyDotEnv'
+import {dotEnv} from './dotEnv'
 import cors from "cors"
 import { routerTags } from './routes/tags.routes'
 import authentication from "./controllers/authenticationController"
+import authenticationMiddlewate from "./middlewares/verifyAuthentication"
 
-interface User {
+export interface User {
   id: number | string;
   name: string;
   email:string;
@@ -34,31 +34,9 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser())
 
-export const secretJWT = 'iaçberyntçaieryt'
 
-export function verifyAuth (req: Request, res: Response, next: NextFunction): void {
 
-  const token = req.cookies.token
-  
-  if(!token){
-    res.status(403).json({ message: 'User not authenticated' })
-      return
-  }
-   
-  try {
-    const decoded = jwt.verify(token, secretJWT)
 
-    req.user = decoded as User
-
-  } catch (err) {
-    res.status(401).json({
-      message: 'invalid token'
-    })
-    return
-  }
-
-  next()
-}
 
 // export function verifyAuthSignin(req:Request, res:Response, next:NextFunction){
 
@@ -90,10 +68,10 @@ app.use('/api', routes)
 app.use('/api/cards',routesCards)
 app.use('/api/tags', routerTags)
 
-app.get('/', verifyAuth, (req, res) => {
+app.get('/', authenticationMiddlewate.verifyAuthentication, (req, res) => {
   res.status(200).json({
 
-    message: `Home Page ${req.user.name}, welcome to the mato`
+    message: `Home Page ${req.user.name}, welcome`
   })
 })
 

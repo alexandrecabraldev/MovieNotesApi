@@ -1,14 +1,14 @@
 import {  Router } from "express";
 import verifyCards from "../middlewares/verifyCards";
 import cardsControllers from "../controllers/cardsControllers";
-import { verifyAuth } from "../server";
+import authenticationMiddleware from "../middlewares/verifyAuthentication";
 
 export const routesCards = Router();
 
 routesCards.route('/search')
-    .post(verifyAuth,cardsControllers.searchCard)
+    .post(authenticationMiddleware.verifyAuthentication ,cardsControllers.searchCard)
 
-routesCards.use(verifyAuth)
+routesCards.use(authenticationMiddleware.verifyAuthentication)
 routesCards.route('/create')
 .post(verifyCards.verifyCardInformation, cardsControllers.createCard)
 
