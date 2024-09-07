@@ -30,37 +30,12 @@ export const app = express();
 app.use(cors({
   origin:"http://localhost:3000",
   credentials:true
-}))
+}));
+
 app.use(express.json())
 app.use(cookieParser())
 
 
-
-
-
-// export function verifyAuthSignin(req:Request, res:Response, next:NextFunction){
-
-//   const token = req.cookies.token
-
-//   if(!token){
-//     res.status(403).json({ message: 'User not authenticated' })
-//     return
-//   }
-
-//   try {
-//     const decoded = jwt.verify(token, secretJWT)
-  
-//     req.user = decoded as User
-   
-//   } catch (err) {
-//     res.status(401).json({
-//       message: 'invalid token'
-//     })
-//     return
-//   }
-
-//   next()
-// }
 
 app.post('/auth', authentication.authenticationController)
 
