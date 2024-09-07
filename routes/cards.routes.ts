@@ -9,8 +9,11 @@ routesCards.route('/search')
     .post(verifyAuth,cardsControllers.searchCard)
 
 routesCards.use(verifyAuth)
-routesCards.route('/')
+routesCards.route('/create')
 .post(verifyCards.verifyCardInformation, cardsControllers.createCard)
-.get(cardsControllers.getCardsUser)
+
+
+routesCards.route('/').get(cardsControllers.getCardsUser)
+
 
     
