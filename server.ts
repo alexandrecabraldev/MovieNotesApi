@@ -25,7 +25,8 @@ declare global {
   }
 }
 
-export const app = express()
+export const app = express();
+
 app.use(cors({
   origin:"http://localhost:3000",
   credentials:true
@@ -36,7 +37,7 @@ app.use(cookieParser())
 export const secretJWT = 'iaçberyntçaieryt'
 
 export function verifyAuth (req: Request, res: Response, next: NextFunction): void {
-  // const token=req.headers.authorization
+
   const token = req.cookies.token
   
   if(!token){

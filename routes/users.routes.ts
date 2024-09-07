@@ -5,7 +5,7 @@ import verifyUsersController from '../controllers/verifyUsersControllers'
 import verifyUsersControllers from '../controllers/verifyUsersControllers'
 export const routes = Router()
 
-routes.post('/user',verifyUsersController.verifyCreateUsers, usersControllers.createUser)
+routes.post('/create',verifyUsersController.verifyCreateUsers, usersControllers.createUser)
 // routes.put('/user',verifyAuthSignin ,verifyUsersControllers.verifyOldPassword, usersControllers.updateUserInformation)
 
 routes.use(verifyAuth)
