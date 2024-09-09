@@ -8,8 +8,8 @@ import { routerTags } from './routes/tags.routes'
 import authentication from "./controllers/authenticationController"
 import authenticationMiddlewate from "./middlewares/verifyAuthentication"
 
-export interface User {
-  id: number | string;
+export interface UserRequest {
+  id: string;
   name: string;
   email:string;
   profileImageUrl:string;
@@ -20,7 +20,7 @@ export interface User {
 declare global {
   namespace Express{
     interface Request {
-      user: User
+      user: UserRequest
     }
   }
 }

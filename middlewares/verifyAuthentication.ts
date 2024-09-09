@@ -1,7 +1,7 @@
 import { type Request, type Response, type NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import { dotEnv } from '../dotEnv'
-import { type User } from '../server'
+import { type UserRequest } from '../server'
 
 function verifyAuthentication (req: Request, res: Response, next: NextFunction): void {
   const token = req.cookies.token
@@ -14,7 +14,7 @@ function verifyAuthentication (req: Request, res: Response, next: NextFunction):
   try {
     const decoded = jwt.verify(token, dotEnv.JWTSECRET)
 
-    req.user = decoded as User
+    req.user = decoded as UserRequest
   } catch (err) {
     res.status(401).json({
       message: 'invalid token'

@@ -1,18 +1,19 @@
 import { type Request, type Response } from 'express'
-import { randomUUID } from 'crypto'
 import { knexConnection } from '../connectionDatabase'
 import  jwt from "jsonwebtoken"
-import { secretJWT } from '../server'
+import { dotEnv } from '../dotEnv'
+import { userFactory } from '../use-cases/factory/userFactory'
 
-const createUser = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body
+const createUser = (req: Request, res: Response) => {
+  const { name, email, password } = req.body;
 
-  await knexConnection('Users').insert({
-    id: randomUUID(),
+  const userRepository = userFactory();
+
+  userRepository.createUser({
     name,
     email,
     password
-  }).catch(err=>console.log(err))
+  });
 
   res.status(200).json({
     message: 'user created'
@@ -69,7 +70,7 @@ const updateUserInformation = async (req:Request, res:Response)=>{
       email,
       profileImageUrl,  
       name: data.name,
-    },secretJWT,(error:Error | null, newToken:string | undefined)=>{
+    },dotEnv.JWTSECRET,(error:Error | null, newToken:string | undefined)=>{
       if(error){
         return res.status(400).json({
           message:'failed auhentication'

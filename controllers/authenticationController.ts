@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import { dotEnv } from '../dotEnv'
 
 async function authenticationController (req: Request, res: Response) {
+  
   console.log(req.body)
 
   const { email, password } = req.body
